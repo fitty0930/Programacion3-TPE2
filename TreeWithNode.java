@@ -9,16 +9,15 @@ public class TreeWithNode {
     }
 
     // TO DO
-	/*  boolean hasElem(Object), boolean isEmpty(),
-      void printPosOrder(), void printPreOrder(), void
-    printInOrder(), List getLongestBranch(), List getFrontera(), , List
-    getElemAtLevel(int) */
+	/* void printPosOrder(), void printPreOrder(), void printInOrder(),
+       List getLongestBranch(), List getFrontera(), List getElemAtLevel(int) */
 
     // DOING
-    // Object getMaxElem()
+    //
 
     // DONE
-    /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), */
+    /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), Object getMaxElem()
+    * boolean isEmpty(), boolean hasElem(Object) */
 
     public void add(int value) {
         if (this.root == null)
@@ -51,7 +50,6 @@ public class TreeWithNode {
         return this.root.getValue();
     }
 
-
     public int getHeight(TreeNode actual) {
         if (actual.getRight() == null && actual.getLeft() == null) {
             return 0;
@@ -70,7 +68,56 @@ public class TreeWithNode {
         }
     }
 
-    public boolean deleteValue(int value) {
+    public boolean hasElem(int numero){
+        boolean encontrado=false;
+        if(this.getRoot()==numero){
+            return true;
+        }else if(this.getRoot()>numero){
+            // buscar a izq
+            encontrado=buscar(this.root.getLeft(), numero);
+        }else if(this.getRoot()<numero){
+            // buscar a derecha
+            encontrado=buscar(this.root.getRight(), numero);
+        }
+        return encontrado;
+    }
+
+    private boolean buscar(TreeNode actual, int numero){
+        boolean encontrado=false;
+        if(actual.getValue()==numero){
+            return true;
+        }else if(actual.getValue()>numero){
+            encontrado=buscar(actual.getLeft(), numero);
+        }else if(actual.getValue()<numero){
+            encontrado=buscar(actual.getRight(), numero);
+        }
+        return encontrado;
+    }
+
+    public boolean isEmpty(){
+        return this.root==null;
+    }
+
+    public int getMaxElem(){
+        // TBC
+        if(this.root.getRight()==null){
+            return this.root.getValue();
+        }else{
+            return buscarMax(this.root.getRight());
+        }
+    }
+
+    private int buscarMax(TreeNode actual){
+        int max=0;
+        if(actual.getRight()!=null){
+            max=buscarMax(actual.getRight());
+        }else{
+            return actual.getValue();
+        }
+        return max;
+    }
+
+    public boolean delete(int value) {
         return deleteValueNode(root, value);
     }
 
