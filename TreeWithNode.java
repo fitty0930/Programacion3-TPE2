@@ -1,5 +1,8 @@
 package ProgramacionIII.tp2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TreeWithNode {
 
     private TreeNode root;
@@ -9,14 +12,15 @@ public class TreeWithNode {
     }
 
     // TO DO
-	/* List getLongestBranch(), List getFrontera(), List getElemAtLevel(int) */
+    /* , List getFrontera(),  */
 
     // DOING
     //
 
     // DONE
     /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), Object getMaxElem()
-    * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder() */
+     * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder(),
+     * List getLongestBranch(), List getElemAtLevel(int) */
 
     public void add(int value) {
         if (this.root == null)
@@ -45,12 +49,57 @@ public class TreeWithNode {
         }
     }
 
-    public void printInOrder(){
+    public List<Integer> getElemAtLevel(int nivel) {
+        ArrayList<Integer> retorno = obtenerNodosDelNivel(this.root, nivel);
+        return retorno;
+    }
+
+    private ArrayList<Integer> obtenerNodosDelNivel(TreeNode actual, int nivel) {
+        ArrayList<Integer> retorno = new ArrayList<Integer>();
+        if (nivel == 0) {
+            retorno.add(actual.getValue());
+        } else {
+            retorno.addAll(obtenerNodosDelNivel(actual.getLeft(), nivel - 1));
+            retorno.addAll(obtenerNodosDelNivel(actual.getRight(), nivel - 1));
+        }
+
+        return retorno;
+    }
+
+    public List<Integer> getLongestBranch() {
+        ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
+        return retorno;
+    }
+
+    private ArrayList<Integer> obtenerRamaMasLarga(TreeNode actual) {
+        if (actual == null) {
+            ArrayList<Integer> retorno = new ArrayList<>();
+            return retorno;
+        }
+        ArrayList<Integer> right = obtenerRamaMasLarga(actual.getRight());
+        ArrayList<Integer> left = obtenerRamaMasLarga(actual.getLeft());
+
+        if (right.size() < left.size()) {
+            left.add(actual.getValue());
+        } else {
+            right.add(actual.getValue());
+        }
+
+
+        if (left.size() >= right.size()) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+
+
+    public void printInOrder() {
         imprimirOrdenado(this.root);
     }
 
-    private void imprimirOrdenado(TreeNode actual){
-        if(actual==null){
+    private void imprimirOrdenado(TreeNode actual) {
+        if (actual == null) {
             return;
         }
         imprimirOrdenado(actual.getLeft()); // busca izq
@@ -58,12 +107,12 @@ public class TreeWithNode {
         imprimirOrdenado(actual.getRight()); // busca der
     }
 
-    public void printPreOrder(){
+    public void printPreOrder() {
         imprimirPreOrdenado(this.root);
     }
 
-    private void imprimirPreOrdenado(TreeNode actual){
-        if(actual==null){
+    private void imprimirPreOrdenado(TreeNode actual) {
+        if (actual == null) {
             return; // corto
         }
         System.out.println(actual.getValue()); // imprime
@@ -71,12 +120,14 @@ public class TreeWithNode {
         imprimirPreOrdenado(actual.getRight()); // busca der
     }
 
-    public void printPosOrder(){
+    public void printPosOrder() {
         imprimirPosOrdenado(this.root);
     }
 
-    private void imprimirPosOrdenado(TreeNode actual){
-        if(actual==null){return;}
+    private void imprimirPosOrdenado(TreeNode actual) {
+        if (actual == null) {
+            return;
+        }
         imprimirPosOrdenado(actual.getLeft());
         imprimirPosOrdenado(actual.getRight());
         System.out.println(actual.getValue());
@@ -105,50 +156,50 @@ public class TreeWithNode {
         }
     }
 
-    public boolean hasElem(int numero){
-        boolean encontrado=false;
-        if(this.getRoot()==numero){
+    public boolean hasElem(int numero) {
+        boolean encontrado = false;
+        if (this.getRoot() == numero) {
             return true;
-        }else if(this.getRoot()>numero){
+        } else if (this.getRoot() > numero) {
             // buscar a izq
-            encontrado=buscar(this.root.getLeft(), numero);
-        }else if(this.getRoot()<numero){
+            encontrado = buscar(this.root.getLeft(), numero);
+        } else if (this.getRoot() < numero) {
             // buscar a derecha
-            encontrado=buscar(this.root.getRight(), numero);
+            encontrado = buscar(this.root.getRight(), numero);
         }
         return encontrado;
     }
 
-    private boolean buscar(TreeNode actual, int numero){
-        boolean encontrado=false;
-        if(actual.getValue()==numero){
+    private boolean buscar(TreeNode actual, int numero) {
+        boolean encontrado = false;
+        if (actual.getValue() == numero) {
             return true;
-        }else if(actual.getValue()>numero){
-            encontrado=buscar(actual.getLeft(), numero);
-        }else if(actual.getValue()<numero){
-            encontrado=buscar(actual.getRight(), numero);
+        } else if (actual.getValue() > numero) {
+            encontrado = buscar(actual.getLeft(), numero);
+        } else if (actual.getValue() < numero) {
+            encontrado = buscar(actual.getRight(), numero);
         }
         return encontrado;
     }
 
-    public boolean isEmpty(){
-        return this.root==null;
+    public boolean isEmpty() {
+        return this.root == null;
     }
 
-    public int getMaxElem(){
+    public int getMaxElem() {
         // TBC
-        if(this.root.getRight()==null){
+        if (this.root.getRight() == null) {
             return this.root.getValue();
-        }else{
+        } else {
             return buscarMax(this.root.getRight());
         }
     }
 
-    private int buscarMax(TreeNode actual){
-        int max=0;
-        if(actual.getRight()!=null){
-            max=buscarMax(actual.getRight());
-        }else{
+    private int buscarMax(TreeNode actual) {
+        int max = 0;
+        if (actual.getRight() != null) {
+            max = buscarMax(actual.getRight());
+        } else {
             return actual.getValue();
         }
         return max;
@@ -159,14 +210,14 @@ public class TreeWithNode {
     }
 
     private boolean deleteValueNode(TreeNode node, int valor) { // PROPAGAR EL RETORNO
-        boolean findAndDelete=false;
+        boolean findAndDelete = false;
         if (node == null) { // si el arbol esta vacio
             // no hago nada
             return false;
         } else if (valor < node.getValue()) { // si el valor es menor busco por la izq
-            findAndDelete=deleteValueNode(node.getLeft(), valor); // GUARDAR
+            findAndDelete = deleteValueNode(node.getLeft(), valor); // GUARDAR
         } else if (valor > node.getValue()) { // si el valor es mayor busco por la der
-            findAndDelete=deleteValueNode(node.getRight(), valor); // GUARDAR
+            findAndDelete = deleteValueNode(node.getRight(), valor); // GUARDAR
         } else {
             eliminarNodo(node);
             return true;
@@ -202,9 +253,9 @@ public class TreeWithNode {
             } else if (arbol.getValue() == arbol.getPadre().getRight().getValue()) {
                 arbol.getPadre().setRight(nodenuevo);
             }
-        }else{
+        } else {
             // si no tiene padre CAMBIAR
-            arbol=nodenuevo;
+            arbol = nodenuevo;
         }
         if (nodenuevo != null) {
             // asignamos nuevo padre
