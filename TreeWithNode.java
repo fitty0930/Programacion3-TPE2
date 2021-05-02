@@ -9,15 +9,14 @@ public class TreeWithNode {
     }
 
     // TO DO
-	/* void printPosOrder(), void printPreOrder(), void printInOrder(),
-       List getLongestBranch(), List getFrontera(), List getElemAtLevel(int) */
+	/* List getLongestBranch(), List getFrontera(), List getElemAtLevel(int) */
 
     // DOING
     //
 
     // DONE
     /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), Object getMaxElem()
-    * boolean isEmpty(), boolean hasElem(Object) */
+    * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder() */
 
     public void add(int value) {
         if (this.root == null)
@@ -45,6 +44,44 @@ public class TreeWithNode {
             }
         }
     }
+
+    public void printInOrder(){
+        imprimirOrdenado(this.root);
+    }
+
+    private void imprimirOrdenado(TreeNode actual){
+        if(actual==null){
+            return;
+        }
+        imprimirOrdenado(actual.getLeft()); // busca izq
+        System.out.println(actual.getValue()); // imprime
+        imprimirOrdenado(actual.getRight()); // busca der
+    }
+
+    public void printPreOrder(){
+        imprimirPreOrdenado(this.root);
+    }
+
+    private void imprimirPreOrdenado(TreeNode actual){
+        if(actual==null){
+            return; // corto
+        }
+        System.out.println(actual.getValue()); // imprime
+        imprimirPreOrdenado(actual.getLeft()); // busca izq
+        imprimirPreOrdenado(actual.getRight()); // busca der
+    }
+
+    public void printPosOrder(){
+        imprimirPosOrdenado(this.root);
+    }
+
+    private void imprimirPosOrdenado(TreeNode actual){
+        if(actual==null){return;}
+        imprimirPosOrdenado(actual.getLeft());
+        imprimirPosOrdenado(actual.getRight());
+        System.out.println(actual.getValue());
+    }
+
 
     public Integer getRoot() {
         return this.root.getValue();
