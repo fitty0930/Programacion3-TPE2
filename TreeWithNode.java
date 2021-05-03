@@ -12,7 +12,7 @@ public class TreeWithNode {
     }
 
     // TO DO
-    /* , List getFrontera(),  */
+    /*    */
 
     // DOING
     //
@@ -20,7 +20,7 @@ public class TreeWithNode {
     // DONE
     /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), Object getMaxElem()
      * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder(),
-     * List getLongestBranch(), List getElemAtLevel(int) */
+     * List getLongestBranch(), List getElemAtLevel(int), List getFrontera() */
 
     public void add(int value) {
         if (this.root == null)
@@ -49,6 +49,31 @@ public class TreeWithNode {
         }
     }
 
+    // Complejidad O(n) donde n es la cantidad de nodos del arbol
+    public List<Integer> getFrontera(){
+        ArrayList<Integer> retorno= obtenerFrontera(this.root);
+        return retorno;
+    }
+
+    private ArrayList<Integer> obtenerFrontera(TreeNode actual){
+        ArrayList<Integer> retorno= new ArrayList<Integer>();
+        if(actual==null){
+            return null;
+        }
+        if(actual.getLeft()==null && actual.getRight()==null){
+            retorno.add(actual.getValue());
+        }
+        if(actual.getLeft()!=null){
+            retorno.addAll(obtenerFrontera(actual.getLeft()));
+        }
+        if(actual.getRight()!=null){
+            retorno.addAll(obtenerFrontera(actual.getRight()));
+        }
+
+        return retorno;
+    }
+
+    // OBTENER ELEMENTOS DE UN DETERMINADO NIVEL
     public List<Integer> getElemAtLevel(int nivel) {
         ArrayList<Integer> retorno = obtenerNodosDelNivel(this.root, nivel);
         return retorno;
