@@ -149,6 +149,7 @@ public class TreeWithNode {
 
     private void imprimirPreOrdenado(TreeNode actual) {
         if (actual == null) {
+            System.out.println("-");
             return; // corto
         }
         System.out.println(actual.getValue()); // imprime
