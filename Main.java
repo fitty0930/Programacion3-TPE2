@@ -7,27 +7,59 @@ import java.sql.SQLOutput;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(4/2+1);
-        System.out.println("----");
-        int[] arr={1,2,30,14,5,2,63,24,6};
-        OrderArray ordenar= new OrderArray(arr);
-        arr=ordenar.quickSort(2,8);
-        for(int i=0; i< arr.length; i++){
-            System.out.println(arr[i]);
-        }
+        // PRUEBAS DE ARBOL BINARIO
+        int[] valoresIniciales = new int[] {15, 4, 1, 25, 50, 6, 7, 20, 5, 30};
+        TreeWithNode miArbol= new TreeWithNode(valoresIniciales);
 
+        System.out.println("preorden");
+        miArbol.printPreOrder();
+        System.out.println("maxelem");
+        System.out.println( miArbol.getMaxElem() );
+        System.out.println("altura");
+        System.out.println( miArbol.getHeight());
+        System.out.println("rama mas larga");
+        System.out.println( miArbol.getLongestBranch() );
+        System.out.println("elementos del nivel 2");
+        System.out.println( miArbol.getElemAtLevel(2) );
+        System.out.println("frontera");
+        System.out.println( miArbol.getFrontera() );
 
-        /*CheckArrayOrder check= new CheckArrayOrder(arr);
-        System.out.println(check.isOrdered());*/
+        miArbol.add(23);
+        miArbol.add(3);
+        miArbol.delete(6);
+        miArbol.delete(30);
 
-        MySimpleLinkedList lista123= new MySimpleLinkedList();
-        lista123.insertFront(3);
-        lista123.insertFront(2);
-        lista123.insertFront(1);
-        SearchItem search= new SearchItem(lista123);
-        System.out.println("lista "+ search.findingList(4));
+        System.out.println("preorden");
+        miArbol.printPreOrder();
+        System.out.println("maxelem");
+        System.out.println( miArbol.getMaxElem() );
+        System.out.println("altura");
+        System.out.println( miArbol.getHeight() );
+        System.out.println("rama mas larga");
+        System.out.println( miArbol.getLongestBranch() );
+        System.out.println("elementos del nivel 2");
+        System.out.println( miArbol.getElemAtLevel(2) );
+        System.out.println("frontera");
+        System.out.println( miArbol.getFrontera() );
 
-        System.out.println("array "+search.findingArray(5));
+        miArbol.add(65);
+        miArbol.delete(5);
+        miArbol.delete(15);
+        miArbol.add(55);
+
+        System.out.println("preorden");
+        miArbol.printPreOrder();
+        System.out.println("maxelem");
+        System.out.println( miArbol.getMaxElem() );
+        System.out.println("altura");
+        System.out.println( miArbol.getHeight() );
+        System.out.println("rama mas larga");
+        System.out.println( miArbol.getLongestBranch() );
+        System.out.println("elementos del nivel 2");
+        System.out.println( miArbol.getElemAtLevel(2) );
+        System.out.println("frontera");
+        System.out.println( miArbol.getFrontera() );
+
 
     }
 }

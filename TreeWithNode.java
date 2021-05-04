@@ -11,6 +11,14 @@ public class TreeWithNode {
         this.root = null;
     }
 
+    // constructor pedido para las pruebas
+    public TreeWithNode(int[] arr){
+        this.root=null;
+        for(int i=0; i<arr.length; i++){
+            this.add(arr[i]);
+        }
+    }
+
     // TO DO
     /*    */
 
@@ -22,6 +30,7 @@ public class TreeWithNode {
      * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder(),
      * List getLongestBranch(), List getElemAtLevel(int), List getFrontera() */
 
+    // Complejidad O(n) donde n es la altura del arbol
     public void add(int value) {
         if (this.root == null)
             this.root = new TreeNode(value);
@@ -73,7 +82,7 @@ public class TreeWithNode {
         return retorno;
     }
 
-    // OBTENER ELEMENTOS DE UN DETERMINADO NIVEL
+    // Complejidad O(n) donde n es el numero de nodos del arbol
     public List<Integer> getElemAtLevel(int nivel) {
         ArrayList<Integer> retorno = obtenerNodosDelNivel(this.root, nivel);
         return retorno;
@@ -91,6 +100,7 @@ public class TreeWithNode {
         return retorno;
     }
 
+    // Complejidad O(n^2) donde n es el alto del arbol
     public List<Integer> getLongestBranch() {
         ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
         return retorno;
@@ -118,7 +128,7 @@ public class TreeWithNode {
         }
     }
 
-
+    // Complejidad de O(n) donde n es la cantidad de nodos del arbol
     public void printInOrder() {
         imprimirOrdenado(this.root);
     }
@@ -132,6 +142,7 @@ public class TreeWithNode {
         imprimirOrdenado(actual.getRight()); // busca der
     }
 
+    // Complejidad de O(n) donde n es la cantidad de nodos del arbol
     public void printPreOrder() {
         imprimirPreOrdenado(this.root);
     }
@@ -145,6 +156,7 @@ public class TreeWithNode {
         imprimirPreOrdenado(actual.getRight()); // busca der
     }
 
+    // Complejidad de O(n) donde n es la cantidad de nodos del arbol
     public void printPosOrder() {
         imprimirPosOrdenado(this.root);
     }
@@ -158,12 +170,17 @@ public class TreeWithNode {
         System.out.println(actual.getValue());
     }
 
-
+    // Complejidad O(1)
     public Integer getRoot() {
         return this.root.getValue();
     }
 
-    public int getHeight(TreeNode actual) {
+    // Complejidad O(n) donde n es la altura del arbol
+    public int getHeight(){
+        return this.getHeight(this.root);
+    }
+
+    private int getHeight(TreeNode actual) {
         if (actual.getRight() == null && actual.getLeft() == null) {
             return 0;
         } else {
@@ -181,6 +198,7 @@ public class TreeWithNode {
         }
     }
 
+    // Complejidad O(n) donde n es la altura del arbol
     public boolean hasElem(int numero) {
         boolean encontrado = false;
         if (this.getRoot() == numero) {
@@ -207,10 +225,12 @@ public class TreeWithNode {
         return encontrado;
     }
 
+    // Complejidad O(1)
     public boolean isEmpty() {
         return this.root == null;
     }
 
+    // Complejidad O(n) donde n es la altura del arbol
     public int getMaxElem() {
         // TBC
         if (this.root.getRight() == null) {
@@ -230,6 +250,7 @@ public class TreeWithNode {
         return max;
     }
 
+    // Complejidad O(n) donde n es a lo sumo el valor de la altura del arbol
     public boolean delete(int value) {
         return deleteValueNode(root, value);
     }
@@ -297,6 +318,7 @@ public class TreeWithNode {
         } else return node; // si no tiene izq retorno el mismo nodo
     }
 
+    // efectivamente esta de mas pero para que el nodo pierda toda relación con el arbol
     private void destroyNode(TreeNode node) {
         node.setLeft(null);
         node.setRight(null);
