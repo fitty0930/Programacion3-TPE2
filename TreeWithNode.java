@@ -1,9 +1,6 @@
 package ProgramacionIII.tp2;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class TreeWithNode {
 
@@ -99,7 +96,8 @@ public class TreeWithNode {
         return retorno;
     }
 
-    // Complejidad O(n) donde n es el alto del arbol
+    // Complejidad O(n^2) donde n es el alto del arbol
+    // una vez por recorrerlo y otra vez por el reverse
     public List<Integer> getLongestBranch() {
         ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
         Collections.reverse(retorno);
@@ -260,80 +258,64 @@ public class TreeWithNode {
 
     // Complejidad O(n) donde n es a lo sumo el valor de la altura del arbol
     public boolean delete(int value) {
-        return deleteValueNode(root, value);
+        return deleteNode(this.root, value);
     }
 
-    private boolean deleteValueNode(TreeNode node, int valor) { // PROPAGAR EL RETORNO
-        boolean findAndDelete = false;
-        if (node == null) { // si el arbol esta vacio
-            // no hago nada
-            return false;
-        } else if (valor < node.getValue()) { // si el valor es menor busco por la izq
-            findAndDelete = deleteValueNode(node.getLeft(), valor); // GUARDAR
-        } else if (valor > node.getValue()) { // si el valor es mayor busco por la der
-            findAndDelete = deleteValueNode(node.getRight(), valor); // GUARDAR
-        } else {
-            eliminarNodo(node);
-            return true;
-        }
+    public boolean deleteNode(TreeNode root, int key) {
+        boolean retorno=false;
+        if (root == null) return false;
+            if (key > root.getValue()) { // moverse a derecha
+                retorno=deleteNode(root.getRight(), key);
+            } else if (key < root.getValue()) { // moverse a izq
+                retorno=deleteNode(root.getLeft(), key);
+            } else { //encontrado
+                if (root.getLeft() == null && root.getRight() == null) { // es una hoja
+                    //root = null; por razones que desconozco el IDE no me permite hacer esta operacion
+                    // asi que tengo que hacer la operación "manualmente"
+                    if(root.getPadre()!=null){
+                        TreeNode padre=root.getPadre();
+                        if(padre.getRight()==root){
+                            padre.setRight(null);
+                        }else{
+                            padre.setLeft(null);
+                        }
+                    }else{
+                        this.root=null;
+                    }
 
-        return findAndDelete; // si jamas encontre al buscado
-    }
+                    retorno= true;
 
-    private void eliminarNodo(TreeNode node) {
-        if (node.getRight() != null && node.getLeft() != null) { // si tiene 2 hijos
-            TreeNode nodomenor = minimo(node.getRight());
-            node.setValue(nodomenor.getValue());
-            eliminarNodo(nodomenor);
-        } else if (node.getLeft() != null) {
-            // reemplazar
-            reemplazar(node, node.getLeft());
-            destroyNode(node);
-        } else if (node.getRight() != null) {
-            reemplazar(node, node.getRight());
-            destroyNode(node);
-        } else {
-            reemplazar(node, null);
-            System.out.println("H");
-        }
+                } else if (root.getRight() != null) {
+                    root.setValue(successor(root)); // le busco sucesor a la derecha
+                    deleteNode(root.getRight(), root.getValue());
+                    retorno=true;
 
-    }
+                } else { // si no tiene sucesor le busco un predecesor
+                    root.setValue(predecessor(root));
+                    deleteNode(root.getLeft(), root.getValue());
+                    retorno=true;
 
-    private void reemplazar(TreeNode arbol, TreeNode nodenuevo) {
-        if (arbol.getPadre() != null) {
-            //asignamos nuevo hijo
-            if (arbol.getValue() == arbol.getPadre().getLeft().getValue()) {
-                arbol.getPadre().setLeft(nodenuevo);
-            } else if (arbol.getValue() == arbol.getPadre().getRight().getValue()) {
-                arbol.getPadre().setRight(nodenuevo);
+                }
+
             }
-        } else {
-            // si no tiene padre CAMBIAR
-            arbol = nodenuevo;
+
+
+        return retorno;
+    }
+
+    private int successor(TreeNode root) {
+        root = root.getRight();
+        while (root.getLeft() != null) {
+            root = root.getLeft();
         }
-        if (nodenuevo != null) {
-            // asignamos nuevo padre
-            nodenuevo.setPadre(arbol.getPadre());
+        return root.getValue();
+    }
+
+    private int predecessor(TreeNode root) {
+        root = root.getLeft();
+        while (root.getRight() != null) {
+            root = root.getRight();
         }
+        return root.getValue();
     }
-
-    // funcion para determinar el nodo mas izq posible
-    private TreeNode minimo(TreeNode node) {
-        if (node == null) {
-            return null;
-        } else if (node.getLeft() != null) { // si tiene izq retornamos la parte mas izq
-            return minimo(node.getLeft());
-        } else return node; // si no tiene izq retorno el mismo nodo
-    }
-
-    // efectivamente esta de mas pero para que el nodo pierda toda relación con el arbol
-    private void destroyNode(TreeNode node) {
-        node.setLeft(null);
-        node.setRight(null);
-        node.setPadre(null);
-
-        node=null; // eliminarlo (?
-    }
-
-
 }
