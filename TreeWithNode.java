@@ -12,25 +12,17 @@ public class TreeWithNode {
     }
 
     // constructor pedido para las pruebas
-    public TreeWithNode(int[] arr){
-        this.root=null;
-        for(int i=0; i<arr.length; i++){
+    // tiene complejidad computacional O(n) donde n es el largo del array
+    public TreeWithNode(int[] arr) {
+        this.root = null;
+        for (int i = 0; i < arr.length; i++) {
             this.add(arr[i]);
         }
     }
 
-    // TO DO
-    /*    */
-
-    // DOING
-    //
-
-    // DONE
-    /* Object getRoot(), int getHeight(), void insert(Object), boolean delete(Object), Object getMaxElem()
-     * boolean isEmpty(), boolean hasElem(Object), void printInOrder(), void printPreOrder(), void printPosOrder(),
-     * List getLongestBranch(), List getElemAtLevel(int), List getFrontera() */
-
     // Complejidad O(n) donde n es la altura del arbol
+    // a lo sumo debo recorrer la altura del arbol si el valor a insertar va al final de la rama
+    // mas larga
     public void add(int value) {
         if (this.root == null)
             this.root = new TreeNode(value);
@@ -59,32 +51,37 @@ public class TreeWithNode {
     }
 
     // Complejidad O(n) donde n es la cantidad de nodos del arbol
-    public List<Integer> getFrontera(){
-        ArrayList<Integer> retorno= obtenerFrontera(this.root);
+    // debo recorrer todos los nodos del arbol hasta llegar a sus hojas
+    public List<Integer> getFrontera() {
+        ArrayList<Integer> retorno = obtenerFrontera(this.root);
         return retorno;
     }
 
-    private ArrayList<Integer> obtenerFrontera(TreeNode actual){
-        ArrayList<Integer> retorno= new ArrayList<Integer>();
-        if(actual==null){
+    private ArrayList<Integer> obtenerFrontera(TreeNode actual) {
+        ArrayList<Integer> retorno = new ArrayList<Integer>();
+        if (actual == null) {
             return null;
         }
-        if(actual.getLeft()==null && actual.getRight()==null){
+        if (actual.getLeft() == null && actual.getRight() == null) {
             retorno.add(actual.getValue());
         }
-        if(actual.getLeft()!=null){
+        if (actual.getLeft() != null) {
             retorno.addAll(obtenerFrontera(actual.getLeft()));
         }
-        if(actual.getRight()!=null){
+        if (actual.getRight() != null) {
             retorno.addAll(obtenerFrontera(actual.getRight()));
         }
 
         return retorno;
     }
 
-    // Complejidad O(n) donde n es el numero de nodos del arbol
+    // Complejidad O(n) donde n es el numero de nodos del arbol, el peor de los casos
+    // es que me pidan el ultimo nivel
     public List<Integer> getElemAtLevel(int nivel) {
-        ArrayList<Integer> retorno = obtenerNodosDelNivel(this.root, nivel);
+        ArrayList<Integer> retorno = new ArrayList<Integer>();
+        if (this.root != null) {
+            retorno = obtenerNodosDelNivel(this.root, nivel);
+        }
         return retorno;
     }
 
@@ -100,7 +97,7 @@ public class TreeWithNode {
         return retorno;
     }
 
-    // Complejidad O(n^2) donde n es el alto del arbol
+    // Complejidad O(n^2) donde n es el alto del arbol por como uso mis listas
     public List<Integer> getLongestBranch() {
         ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
         return retorno;
@@ -155,6 +152,7 @@ public class TreeWithNode {
         System.out.println(actual.getValue()); // imprime
         imprimirPreOrdenado(actual.getLeft()); // busca izq
         imprimirPreOrdenado(actual.getRight()); // busca der
+        // chequear POR LAS DUDAS
     }
 
     // Complejidad de O(n) donde n es la cantidad de nodos del arbol
@@ -176,22 +174,27 @@ public class TreeWithNode {
         return this.root.getValue();
     }
 
-    // Complejidad O(n) donde n es la altura del arbol
-    public int getHeight(){
-        return this.getHeight(this.root);
+    // Complejidad O(n) donde n es la cantidad de nodos del arbol
+    // el peor caso es que me pidan que le calcule la altura a un arbol enredadera
+    public int getHeight() {
+        if (this.root != null) {
+            return this.getAltura(this.root);
+        } else {
+            return 0;
+        }
     }
 
-    private int getHeight(TreeNode actual) {
+    private int getAltura(TreeNode actual) {
         if (actual.getRight() == null && actual.getLeft() == null) {
             return 0;
         } else {
             int alturaIzq = 0;
             int alturaDer = 0;
             if (actual.getLeft() != null) {
-                alturaIzq = 1 + this.getHeight(actual.getLeft());
+                alturaIzq = 1 + this.getAltura(actual.getLeft());
             }
             if (actual.getRight() != null) {
-                alturaDer = 1 + this.getHeight(actual.getRight());
+                alturaDer = 1 + this.getAltura(actual.getRight());
             }
 
             int mayor = Math.max(alturaDer, alturaIzq);
@@ -233,12 +236,13 @@ public class TreeWithNode {
 
     // Complejidad O(n) donde n es la altura del arbol
     public int getMaxElem() {
-        // TBC
-        if (this.root.getRight() == null) {
-            return this.root.getValue();
-        } else {
-            return buscarMax(this.root.getRight());
-        }
+        if (this.root != null) {
+            if (this.root.getRight() == null) {
+                return this.root.getValue();
+            } else {
+                return buscarMax(this.root.getRight());
+            }
+        } else return -1;
     }
 
     private int buscarMax(TreeNode actual) {

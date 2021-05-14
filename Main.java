@@ -8,10 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
         // PRUEBAS DE ARBOL BINARIO
-        int[] valoresIniciales = new int[] {15, 4, 1, 25, 50, 6, 7, 20, 5, 30};
-        TreeWithNode miArbol= new TreeWithNode(valoresIniciales);
+        /*int[] valoresIniciales = new int[] {15, 4, 1, 25, 50, 6, 7, 20, 5, 30};
+        TreeWithNode miArbol= new TreeWithNode(valoresIniciales);*/
 
-        System.out.println("preorden");
+        TreeWithNode miArbol= new TreeWithNode();
+
+
+        /*System.out.println("preorden");
         miArbol.printPreOrder();
         System.out.println("maxelem");
         System.out.println( miArbol.getMaxElem() );
@@ -58,7 +61,7 @@ public class Main {
         System.out.println("elementos del nivel 2");
         System.out.println( miArbol.getElemAtLevel(2) );
         System.out.println("frontera");
-        System.out.println( miArbol.getFrontera() );
+        System.out.println( miArbol.getFrontera() );*/
 
 
     }
