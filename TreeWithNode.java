@@ -1,6 +1,8 @@
 package ProgramacionIII.tp2;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class TreeWithNode {
@@ -97,9 +99,10 @@ public class TreeWithNode {
         return retorno;
     }
 
-    // Complejidad O(n^2) donde n es el alto del arbol por como uso mis listas
+    // Complejidad O(n) donde n es el alto del arbol
     public List<Integer> getLongestBranch() {
         ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
+        Collections.reverse(retorno);
         return retorno;
     }
 
@@ -291,7 +294,7 @@ public class TreeWithNode {
             destroyNode(node);
         } else {
             reemplazar(node, null);
-            destroyNode(node);
+            System.out.println("H");
         }
 
     }
@@ -329,7 +332,7 @@ public class TreeWithNode {
         node.setRight(null);
         node.setPadre(null);
 
-        node.setValue(0); // eliminarlo (?
+        node=null; // eliminarlo (?
     }
 
 

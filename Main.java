@@ -12,6 +12,10 @@ public class Main {
         TreeWithNode miArbol= new TreeWithNode(valoresIniciales);*/
 
         TreeWithNode miArbol= new TreeWithNode();
+        miArbol.add(10);
+        miArbol.delete(10);
+        miArbol.printPreOrder();
+
 
 
         /*System.out.println("preorden");
