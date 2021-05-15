@@ -86,11 +86,16 @@ public class TreeWithNode {
 
     private ArrayList<Integer> obtenerNodosDelNivel(TreeNode actual, int nivel) {
         ArrayList<Integer> retorno = new ArrayList<Integer>();
+        if(actual==null){return null;}
         if (nivel == 0) {
             retorno.add(actual.getValue());
         } else {
-            retorno.addAll(obtenerNodosDelNivel(actual.getLeft(), nivel - 1));
-            retorno.addAll(obtenerNodosDelNivel(actual.getRight(), nivel - 1));
+            if(actual.getLeft()!=null){
+                retorno.addAll(obtenerNodosDelNivel(actual.getLeft(), nivel - 1));
+            }
+            if(actual.getRight()!=null){
+                retorno.addAll(obtenerNodosDelNivel(actual.getRight(), nivel - 1));
+            }
         }
 
         return retorno;
