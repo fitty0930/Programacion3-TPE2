@@ -66,6 +66,6 @@ public class Main {
         System.out.println("frontera");
         System.out.println( miArbol.getFrontera() );
 
-        System.out.println(miArbol.getElemAtLevel(9));
+        // System.out.println(miArbol.getElemAtLevel(9));
     }
 }

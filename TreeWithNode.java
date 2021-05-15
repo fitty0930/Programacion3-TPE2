@@ -11,7 +11,8 @@ public class TreeWithNode {
     }
 
     // constructor pedido para las pruebas
-    // tiene complejidad computacional O(n) donde n es el largo del array
+    // tiene complejidad computacional O(n*l) donde n es el costo comp de cada add (max n=altura del arbol)
+    // y l es el largo del array
     public TreeWithNode(int[] arr) {
         this.root = null;
         for (int i = 0; i < arr.length; i++) {
@@ -101,8 +102,8 @@ public class TreeWithNode {
         return retorno;
     }
 
-    // Complejidad O(n^2) donde n es el alto del arbol
-    // una vez por recorrerlo y otra vez por el reverse
+    // Complejidad O(n+l) donde n es el alto del arbol
+    // una n por recorrerlo y l por el reverse del arraylist
     public List<Integer> getLongestBranch() {
         ArrayList<Integer> retorno = obtenerRamaMasLarga(this.root);
         Collections.reverse(retorno);
@@ -275,8 +276,7 @@ public class TreeWithNode {
                 retorno=deleteNode(root.getLeft(), key);
             } else { //encontrado
                 if (root.getLeft() == null && root.getRight() == null) { // es una hoja
-                    //root = null; por razones que desconozco el IDE no me permite hacer esta operacion
-                    // asi que tengo que hacer la operación "manualmente"
+
                     if(root.getPadre()!=null){
                         TreeNode padre=root.getPadre();
                         if(padre.getRight()==root){
